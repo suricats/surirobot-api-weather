@@ -9,8 +9,8 @@ This API uses Forecast API to retrieve weather for a given location
 ## Setup
 Run in the console:
 ```
-git clone git@gitlab.com:surirobot/weather-api.git
-cd weather-api
+git clone git@github.com:suricats/surirobot-api-weather.git service-weather
+cd service-weather
 npm install
 cp src/config.js.example src/config.js
 ```
