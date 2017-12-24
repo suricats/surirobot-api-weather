@@ -1,0 +1,156 @@
+swagger: '2.0'
+info:
+  description: Wheather API
+  version: 1.0.0
+  title: Suriwheather
+  termsOfService: ''
+  contact:
+    email: nicolas.gorrity@gmail.com
+  license:
+    name: ISC
+    url: 'https://www.gnu.org/licenses/license-list.html#ISC'
+host: address.server.fr
+basePath: /
+tags:
+  - name: forecast
+    description: >-
+      Get the forecasts of a location at a certain time (current time by
+      default)
+schemes:
+  - http
+paths:
+  /forecast/findByCoordinates:
+    get:
+      tags:
+        - forecast
+      summary: >-
+        Get the forecasts at a certain time (current time by default) of the
+        location indicated by its coordinates
+      description: ''
+      operationId: getforecastbycoords
+      produces:
+        - application/json
+      parameters:
+        - name: latitude
+          in: query
+          description: Latitude of the city
+          required: true
+          type: number
+        - name: longitude
+          in: query
+          description: Longitude of the city
+          required: true
+          type: number
+        - name: start_time
+          in: query
+          description: |-
+            Date for the beginning of the forecast. Gives a daily forecast.
+             Format: `YYYY-MM-DDThh:mm:ss`
+          required: false
+          type: string
+          format: date-time
+        - name: language
+          in: query
+          description: Language for the returned properties
+          required: false
+          type: string
+          default: fr
+          enum:
+            - fr
+            - en
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/OutputMessages'
+        '400':
+          description: Bad request
+          schema:
+            $ref: '#/definitions/OutputError'
+        '503':
+          description: Service unavailable
+          schema:
+            $ref: '#/definitions/OutputError'
+      x-swagger-router-controller: Forecast
+  /forecast/findByAddress:
+    get:
+      tags:
+        - forecast
+      summary: >-
+        Get the forecasts at a certain time (current time by default) of the
+        location indicated by its address
+      description: ''
+      operationId: getforecastbyaddress
+      produces:
+        - application/json
+      parameters:
+        - name: address
+          in: query
+          description: 'Location address (city, postal address...)'
+          required: true
+          type: string
+        - name: start_time
+          in: query
+          description: |-
+            Date for the beginning of the forecast. Gives a daily forecast.
+             Format: `YYYY-MM-DDThh:mm:ss`
+          required: false
+          type: string
+          format: date-time
+        - name: language
+          in: query
+          description: Language for the returned properties
+          required: false
+          type: string
+          default: fr
+          enum:
+            - fr
+            - en
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/OutputMessages'
+        '400':
+          description: Bad request
+          schema:
+            $ref: '#/definitions/OutputError'
+        '404':
+          description: Address not recognized
+          schema:
+            $ref: '#/definitions/OutputError'
+        '503':
+          description: Service unavailable
+          schema:
+            $ref: '#/definitions/OutputError'
+      x-swagger-router-controller: Forecast
+definitions:
+  Location:
+    properties:
+      latitude:
+        type: number
+      longitude:
+        type: number
+      name:
+        type: string
+  OutputMessages:
+    properties:
+      location:
+        $ref: '#/definitions/Location'
+      date:
+        type: string
+        format: date-time
+      result:
+        type: object
+        properties: {}
+      messages:
+        type: array
+        items:
+          type: string
+  OutputError:
+    properties:
+      location:
+        $ref: '#/definitions/Location'
+      date:
+        type: string
+        format: date-time
