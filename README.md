@@ -1,7 +1,7 @@
 # Weather API for Surirobot
 
 ## Overview
-This API uses Forecast API to retrieve weather for a given location
+This API uses Dark Sky API to retrieve weather for a given location
 
 ## Requirements
 * NodeJs >= 8
