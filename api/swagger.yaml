@@ -17,7 +17,7 @@ tags:
       Get the forecasts of a location at a certain time (current time by
       default)
 schemes:
-  - http
+  - https
 paths:
   /forecast/findByCoordinates:
     get:
